@@ -15,23 +15,8 @@ export async function main() {
   const params = new URLSearchParams(window.location.search);
   const label = params.get("label") ?? "";
   const freq = Number(params.get("freq")) || 660;
-  const nested = params.get("nested") === "1";
   const suffix = label ? ` ${label}` : "";
   const tag = `[iframe${suffix}]`;
-
-  if (nested) {
-    const container = document.getElementById("nested-container");
-    if (container) {
-      const childLabel = label ? `${label}.1` : "nested";
-      const childFreq = freq + 110;
-      const child = document.createElement("iframe");
-      child.title = `iframe ${childLabel}`;
-      child.src = `./iframe.html?label=${encodeURIComponent(childLabel)}&freq=${childFreq}`;
-      child.width = "700";
-      child.height = "280";
-      container.appendChild(child);
-    }
-  }
 
   const headingEl = document.querySelector("h2");
   if (headingEl && label) headingEl.textContent = `Iframe ${label}`;

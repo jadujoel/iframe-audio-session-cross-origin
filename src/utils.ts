@@ -135,13 +135,12 @@ export function getAudioSession(): AudioSession | undefined {
 export function createTone(opts: { frequency?: number; gain?: number } = {}) {
   const frequency = opts.frequency ?? 440;
   const gain = opts.gain ?? 0.1;
-  let ctx: AudioContext | undefined;
+  const ctx: AudioContext = new AudioContext({ sampleRate: 48000, latencyHint: "playback" })
   let osc: OscillatorNode | undefined;
   let gainNode: GainNode | undefined;
 
   const start = async () => {
     if (osc) return;
-    ctx ??= new AudioContext();
     if (ctx.state === "suspended") await ctx.resume();
     gainNode = ctx.createGain();
     gainNode.gain.value = gain;
